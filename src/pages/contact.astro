@@ -1,0 +1,175 @@
+---
+import Layout from "../layouts/Layout.astro";
+import InfoLabel from "@components/InfoLabel.astro";
+import { SOCIAL_MENU } from "@consts/menus";
+import { EmailTypes } from "@/consts/emailTypes";
+---
+
+<Layout>
+  <section class="relative overflow-hidden h-auto">
+    <InfoLabel
+      title="¿Cómo podemos ayudarte?"
+      description={[
+        "En Tiempo Noble siempre estamos aquí para ayudarte. Si tienes preguntas, comentarios o necesitas asistencia, no dudes en contactarnos. Nuestro equipo está listo para brindarte el mejor servicio posible.",
+      ]}
+      className="mt-28"
+    />
+
+    <div
+      class="grid grid-cols-1 lg:grid-cols-2 gap-8 mx-auto w-full py-20 items-start container px-4 md:px-0"
+    >
+      <div class="px-4 animate-fade-in-right animate-delay-200">
+        <div>
+          <h3 class="text-2xl font-semibold text-center mb-4">CONTÁCTANOS</h3>
+          <p class="text-base text-center text-pretty w-full mx-auto">
+            En Tiempo Noble, tu satisfacción es nuestra prioridad. Estamos aquí
+            para ayudarte con cualquier consulta, problema o sugerencia que
+            puedas tener. Nuestro equipo de soporte está dedicado a brindarte un
+            servicio rápido y efectivo.
+          </p>
+          <div class="vintage-divider mt-4 mb-16"></div>
+        </div>
+        <div class="mx-auto">
+          <h3
+            class="text-lg mb-4 uppercase text-theme-gold underline decoration-theme-blue underline-offset-4 font-semibold"
+          >
+            Siguenos en nuestras redes sociales
+          </h3>
+          {
+            SOCIAL_MENU.map((item) => (
+              <li class="text-theme-blue/70 hover:text-theme-blue flex gap-2 items-center">
+                <img src={item.icon} alt="" />
+                <a href={item.href} class="py-2  underline-animation">
+                  {item.name}
+                </a>
+              </li>
+            ))
+          }
+        </div>
+      </div>
+      <form
+        id="contact-form"
+        method="POST"
+        class="flex flex-col items-center justify-start gap-6 rounded-lg [&>input]:bg-gray-300 [&>textarea]:bg-gray-300 px-4 md:px-20 w-full animate-fade-in-left animate-delay-200"
+      >
+        <h2 class="mb-2 text-2xl font-bold text-center text-black">
+          ENVIANOS UN MENSAJE
+        </h2>
+        <input
+          id="name"
+          type="text"
+          placeholder="Nombre"
+          name="name"
+          required
+          class="w-full px-4 py-3 text-sm text-gray-800 rounded-md"
+        />
+
+        <input
+          id="from"
+          type="email"
+          name="from"
+          required
+          placeholder="Correo electrónico"
+          class="w-full px-4 py-3 text-sm text-gray-800 rounded-md"
+        />
+
+        <input
+          id="subject"
+          type="text"
+          name="subject"
+          required
+          placeholder="Asunto"
+          class="w-full px-4 py-3 text-sm text-gray-800 rounded-md"
+        />
+
+        <textarea
+          id="message"
+          placeholder="Mensaje"
+          name="message"
+          required
+          rows="6"
+          class="w-full h-full px-4 pt-3 text-sm text-gray-800 rounded-md"
+        ></textarea>
+
+        <button
+          class="p-2 font-semibold text-theme-blue transition duration-300 rounded-md w-60 bg-theme-gold hover:bg-theme-blue hover:text-theme-gold hover:scale-105 cursor-pointer"
+          type="submit"
+        >
+          Enviar
+        </button>
+      </form>
+    </div>
+  </section>
+  <script>
+    import { EmailTypes } from "@/consts/emailTypes";
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.querySelector(
+        "#contact-form"
+      ) as HTMLFormElement | null;
+
+      if (!form) return;
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(form);
+        const data = {
+          name: formData.get("name"),
+          from: formData.get("from"),
+          subject: formData.get("subject"),
+          message: formData.get("message"),
+        };
+
+        if (!data.name || !data.from || !data.message) {
+          window.dispatchEvent(
+            new CustomEvent("toast", {
+              detail: {
+                type: "error",
+                message: "Todos los campos son obligatorios",
+              },
+            })
+          );
+          return;
+        }
+
+        const payload = {
+          type: EmailTypes.SUPPORT,
+          data,
+        };
+
+        const response = fetch("/api/email", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
+        // .then((res) => {
+        //   if (!res.ok) throw new Error("Server Error.");
+        //   return res.json();
+        // });
+
+        //Use promise toast until a response
+        window.dispatchEvent(
+          new CustomEvent("toast", {
+            detail: {
+              type: "promise",
+              message: "Mensaje enviado con éxito!",
+              errorMessage:
+                "Error al envíar el mensaje. Intenta otro medio de contacto!.",
+              loadingMessage: "Enviando...",
+              promise: response,
+            },
+          })
+        );
+
+        const res = await response;
+
+        if (!res.ok) {
+          throw new Error("Error al enviar mensaje");
+        }
+      });
+    });
+  </script>
+</Layout>

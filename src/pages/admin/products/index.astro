@@ -1,0 +1,21 @@
+---
+import AdminLayout from "@/layouts/AdminLayout.astro";
+import { authRedirect } from "../../../lib/authRedirect";
+import ProductsTable from "@components/ProductsTable";
+import ArrowLeft from "@/components/icons/astro/arrow-left.astro";
+
+const authResponse = await authRedirect(Astro);
+
+if (authResponse instanceof Response) {
+  return authResponse;
+}
+---
+
+<AdminLayout>
+  <a
+    href="/catalog"
+    class="text-gray-500 cursor-pointer hover:text-theme-gold transition duration-200 flex items-center pt-14 pl-56"
+    ><ArrowLeft />Volver al catálogo</a
+  >
+  <ProductsTable client:only="react" />
+</AdminLayout>

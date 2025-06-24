@@ -1,0 +1,174 @@
+---
+import Layout from "@layouts/Layout.astro";
+import type { Product } from "../../types/product";
+import ArrowLeft from "@/components/icons/astro/arrow-left.astro";
+import LayawaysSection from "@/components/LayawaysSection.astro";
+
+const { slug } = Astro.params;
+const baseURL = import.meta.env.PUBLIC_API_URL ?? "http://localhost:4321";
+
+const response = await fetch(`${baseURL}/api/products/${slug}`, {
+  method: "GET",
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+const product: Product = await response.json();
+---
+
+<Layout
+  title={`${product.name} | Relojes - Tiempo Noble`}
+  description={product.description}
+>
+  <section class="pt-36 bg-theme-gold-light h-auto">
+    <div class="container mx-auto mb-20">
+      <!-- <a
+        href="/catalog"
+        class="text-gray-500 cursor-pointer hover:text-theme-gold transition duration-200 flex items-center"
+        ><ArrowLeft />Volver al catálogo</a
+      > -->
+      <div class="grid grid-cols-1 md:gap-12 md:grid-cols-2 mt-8">
+        <article
+          class="flex flex-col items-center md:items-start animate-fade-in-right"
+        >
+          <div class="aspect-square w-full mb-4">
+            <img
+              id="main-image"
+              class="w-full h-full object-contain"
+              src={product.images[0].url}
+              alt={`imagen-de-${product.name}`}
+              transition:name={`watch-${product.slug}`}
+            />
+          </div>
+          <div class="">
+            {
+              product.images.length > 1 && (
+                <div class="flex gap-4 mt-4 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-theme-gold">
+                  {product.images.map((image) => (
+                    <img
+                      class="h-20 w-20 object-cover rounded-lg cursor-pointer thumbnail"
+                      src={image.url}
+                      alt={`imagen-de-${product.name}`}
+                      data-image-url={image.url}
+                    />
+                  ))}
+                </div>
+              )
+            }
+          </div>
+        </article>
+        <article
+          class="w-full md:w-3/4 mt-10 md:mt-0 px-5 md:px-0 animate-fade-in-left"
+        >
+          <h1 class="text-2xl md:text-3xl font-light text-theme-blue">
+            {product.name}
+          </h1>
+          <p class="text-base md:text-lg font-serif text-gray-500 italic">
+            {product.model}
+          </p>
+          <div class="mt-2 h-[2px] w-24 bg-theme-gold"></div>
+          <div class="flex gap-4 items-center mt-4">
+            <p
+              class={`text-base md:text-lg font-serif text-gray-500 italic ${product.discount ? "line-through" : ""}`}
+            >
+              {
+                product.normalPrice > 0
+                  ? `$${product.normalPrice}`
+                  : product.notes
+              }
+            </p>
+            {
+              product.discount > 0 && (
+                <p class="text-lg md:text-xl font-serif text-red-500 italic">
+                  ${product.discountPrice}
+                </p>
+              )
+            }
+          </div>
+          <p class="mt-8 text-base md:text-lg text-gray-500 prose">
+            {product.description}
+          </p>
+
+          <div class="space-y-2 text-[#263959]/80">
+            <div
+              class="grid grid-cols-2 border-b border-[#dbc9a5]/20 py-2 md:mt-10"
+            >
+              <span class="font-medium">Modelo</span>
+              <span>{product.model}</span>
+            </div>
+            <div class="grid grid-cols-2 border-b border-[#dbc9a5]/20 py-2">
+              <span class="font-medium">Caja</span>
+              <span>{product.caseMaterial}</span>
+            </div>
+
+            {
+              (product.braceletMaterial || product.strapMaterial) && (
+                <div class="grid grid-cols-2 border-b border-[#dbc9a5]/20 py-2">
+                  <span class="font-medium">
+                    {product.braceletMaterial ? "Extensible" : "Correa"}
+                  </span>
+                  <span>
+                    {product.braceletMaterial
+                      ? product.braceletMaterial
+                      : product.strapMaterial}
+                  </span>
+                </div>
+              )
+            }
+            <div class="grid grid-cols-2 border-b border-[#dbc9a5]/20 py-2">
+              <span class="font-medium">Diametro de Caja: </span>
+              <span>{product.caseSize}</span>
+            </div>
+            <div class="grid grid-cols-2 border-b border-[#dbc9a5]/20 py-2">
+              <span class="font-medium">Cristal: </span>
+              <span>{product.cristal}</span>
+            </div>
+            {
+              product.movement && (
+                <div class="grid grid-cols-2 border-b border-[#dbc9a5]/20 py-2">
+                  <span class="font-medium">Movimiento: </span>
+                  <span>{product.movement}</span>
+                </div>
+              )
+            }
+            <div class="grid grid-cols-2 border-[#dbc9a5]/20 py-2">
+              <span class="font-medium">Resistencia al agua:</span>
+              <span>{product.waterResistance}</span>
+            </div>
+
+            <button
+              class="bg-theme-gold text-theme-blue border-2 border-theme-blue shadow-[2px_2px_0px_#2A3858] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all px-4 py-2 rounded-2xl cursor-pointer w-full font-medium mt-10 mx-auto"
+              type="button"
+              onclick="window.open('https://ig.me/m/tiempo_noble.mx', '_blank')"
+            >
+              Solicitar Información
+            </button>
+            <p class="text-sm text-gray-400 w-full text-center mt-4">
+              Para más información sobre este modelo, contactanos por mensaje
+              directo
+            </p>
+          </div>
+        </article>
+      </div>
+    </div>
+    <LayawaysSection />
+  </section>
+</Layout>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const mainImage = document.getElementById("main-image") as HTMLImageElement;
+    if (!mainImage) return;
+
+    const thumbnails = document.querySelectorAll(".thumbnail");
+
+    thumbnails.forEach((thumbnail) => {
+      thumbnail.addEventListener("click", () => {
+        const imageUrl = thumbnail.getAttribute("data-image-url");
+        if (imageUrl && mainImage) {
+          mainImage.src = imageUrl;
+        }
+      });
+    });
+  });
+</script>

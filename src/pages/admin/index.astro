@@ -1,0 +1,14 @@
+---
+import AdminLayout from "@layouts/AdminLayout.astro";
+import { authRedirect } from "../../lib/authRedirect";
+
+const authResponse = await authRedirect(Astro);
+
+if (authResponse instanceof Response) {
+  return authResponse;
+}
+---
+
+<AdminLayout>
+  <section class="bg-theme-gold-light h-screen"></section>
+</AdminLayout>

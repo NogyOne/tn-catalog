@@ -1,11 +1,30 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Layout from "@layouts/Layout.astro";
+import MainSection from "@components/MainSection.astro";
+import FeaturedProducts from "@components/FeaturedProducts.astro";
+import InfoLabel from "@components/InfoLabel.astro";
+import LayawaysSection from "@components/LayawaysSection.astro";
 ---
 
 <Layout>
-	<Welcome />
+  <MainSection />
+  <FeaturedProducts />
+  <InfoLabel
+    title="¿Quiénes Somos?"
+    description={[
+      "En Tiempo Noble creemos que un reloj no solo es un accesorio, es una expresión de estilo, personalidad y precisión.",
+      "Fundada en 2024, Tiempo Noble es una marca dedicada a la venta de relojes en línea tanto nuevos como de segunda mano, ofreciendo garantías directamente con nosotros y con proveedores de las marcas.",
+      "",
+      "La elegancia siempre ha sido un accesorio...",
+    ]}
+    className="bg-theme-gold-light [&>div>div>h2]:text-theme-blue [&>div>div>p]:text-theme-blue pb-30"
+  />
+  <LayawaysSection />
+  <InfoLabel
+    title="Únete a la Nobleza"
+    description={[
+      "Tiempo Noble ha sido sinónimo de excelencia en relojería. Nuestra pasión por la elegancia y la modernidad nos ha traido a compartirla contigo...",
+    ]}
+    className="py-36"
+  />
 </Layout>

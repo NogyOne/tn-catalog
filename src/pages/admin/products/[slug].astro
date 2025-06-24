@@ -1,0 +1,300 @@
+---
+import AdminLayout from "@layouts/AdminLayout.astro";
+import { authRedirect } from "../../../lib/authRedirect";
+import ImageUploader from "@components/ImageUploader";
+import Loader from "@components/Loader.astro";
+import type { Product } from "../../../types/product";
+import ArrowLeft from "@/components/icons/astro/arrow-left.astro";
+
+const authResponse = await authRedirect(Astro);
+
+if (authResponse instanceof Response) {
+  return authResponse;
+}
+
+const { slug } = Astro.params;
+let product: Product | undefined;
+let isEdit = false;
+
+if (slug != "new") {
+  isEdit = true;
+  const baseURL = import.meta.env.PUBLIC_API_URL ?? "http://localhost:4321";
+  const response = await fetch(`${baseURL}/api/products/${slug}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  product = await response.json();
+}
+---
+
+<AdminLayout>
+  <div
+    id="cortain"
+    class="fixed top-0 h-screen w-screen flex-col items-center justify-center hidden"
+  >
+    <Loader />
+    <h3>Loading...</h3>
+    <div class="bg-white opacity-35 absolute h-full w-full"></div>
+  </div>
+
+  <section class="px-10 flex flex-col items-center justify-center h-auto py-20">
+    <a
+      href="/admin/products"
+      class="text-gray-500 cursor-pointer hover:text-theme-gold transition duration-200 flex items-center"
+      ><ArrowLeft />Volver a productos</a
+    >
+    <h1 class="text-3xl font-light mb-4 mt-6">Agregar Producto</h1>
+    <form
+      id="add-product-form"
+      enctype="multipart/form-data"
+      class="h-full w-full max-w-6xl my-10"
+    >
+      <div
+        class="grid grid-cols-1 gap-10 md:grid-cols-3 w-full [&>article>div>label]:text-gray-700 [&>article>div>label]:block [&>article>div>input]:border-gray-300 [&>article>div>input]:border [&>article>div>input]:rounded [&>article>div>input]:p-2 [&>article>div>input]:w-full [&>article>div>textarea]:border [&>article>div>textarea]:rounded [&>article>div>textarea]:p-2 [&>article>div>textarea]:w-full [&>article>div>textarea]:border-gray-300"
+      >
+        <article>
+          <input type="hidden" name="slug" value={slug} />
+          <div class="mb-4">
+            <label for="name" class="block">Nombre del Producto:</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              required
+              value={product?.name ?? ""}
+            />
+          </div>
+          <div class="mb-4">
+            <label for="model">Modelo:</label>
+            <input
+              type="text"
+              id="model"
+              name="model"
+              required
+              value={product?.model ?? ""}
+            />
+          </div>
+          <div class="mb-4">
+            <label for="description">Descripción:</label>
+            <textarea
+              id="description"
+              name="description"
+              rows="12"
+              required
+              set:text={product?.description ?? ""}
+            />
+          </div>
+          <div class="mb-4">
+            <label for="normalPrice">Precio:</label>
+            <input
+              type="number"
+              id="normalPrice"
+              name="normalPrice"
+              required
+              value={product?.normalPrice ?? 0}
+            />
+          </div>
+          <div class="mb-4">
+            <label for="discount">Descuento:</label>
+            <input
+              type="number"
+              id="discount"
+              name="discount"
+              value={product?.discount ?? 0}
+            />
+          </div>
+        </article>
+        <article>
+          <div class="mb-4">
+            <label for="caseMaterial">Material de la caja:</label>
+            <input
+              type="text"
+              id="caseMaterial"
+              name="caseMaterial"
+              required
+              value={product?.caseMaterial ?? ""}
+            />
+          </div>
+          <div class="mb-4">
+            <label for="braceletMaterial">Material del Brazalete:</label>
+            <input
+              type="text"
+              id="braceletMaterial"
+              name="braceletMaterial"
+              class="border border-gray-300 rounded p-2 w-full"
+              value={product?.braceletMaterial ?? ""}
+            />
+          </div>
+          <div class="mb-4">
+            <label for="strapMaterial">Material del Strap:</label>
+            <input
+              type="text"
+              id="strapMaterial"
+              name="strapMaterial"
+              value={product?.strapMaterial ?? ""}
+            />
+          </div>
+          <div class="mb-4">
+            <label for="stock">Stock:</label>
+            <input
+              type="number"
+              id="stock"
+              name="stock"
+              required
+              value={product?.stock ?? 1}
+            />
+          </div>
+          <div class="mb-4">
+            <label for="notes">Notes:</label>
+            <textarea
+              id="notes"
+              name="notes"
+              rows="2"
+              set:text={product?.notes ?? ""}
+            />
+          </div>
+
+          <ImageUploader
+            client:only="react"
+            currentImgs={product?.images?.map((img) => img.url) ?? []}
+          />
+        </article>
+        <article>
+          <div class="mb-4">
+            <label for="caseSize">Diametro de Caja:</label>
+            <input
+              type="number"
+              id="caseSize"
+              name="caseSize"
+              required
+              step="any"
+              value={product?.caseSize}
+            />
+          </div>
+          <div class="mb-4">
+            <label for="cristal">Cristal:</label>
+            <input
+              type="text"
+              id="cristal"
+              name="cristal"
+              class="border border-gray-300 rounded p-2 w-full"
+              value={product?.cristal ?? ""}
+            />
+          </div>
+          <div class="mb-4">
+            <label for="movement">Movement:</label>
+            <input
+              type="text"
+              id="movement"
+              name="movement"
+              class="border border-gray-300 rounded p-2 w-full"
+              value={product?.movement ?? ""}
+            />
+          </div>
+          <div class="mb-4">
+            <label for="waterResistance">Resistencia al Agua:</label>
+            <input
+              type="text"
+              id="waterResistance"
+              name="waterResistance"
+              class="border border-gray-300 rounded p-2 w-full"
+              value={product?.waterResistance ?? ""}
+            />
+          </div>
+          <button
+            id="submit-button"
+            type="submit"
+            class="bg-theme-gold text-theme-blue border-2 border-theme-blue shadow-[2px_2px_0px_#2A3858] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all px-4 py-2 rounded-2xl cursor-pointer font-bold mx-auto w-full md:w-auto mt-10"
+            >{isEdit ? "Guardar" : "Agregar Producto"}
+          </button>
+        </article>
+      </div>
+    </form>
+  </section>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const cortain = document.querySelector("#cortain") as HTMLDivElement;
+      const submitButton = document.querySelector(
+        "#submit-button"
+      ) as HTMLButtonElement;
+      const form = document.querySelector(
+        "#add-product-form"
+      ) as HTMLFormElement;
+
+      if (!form) return;
+
+      let selectedFiles: File[] = [];
+
+      window.addEventListener("imagesSelected", (event: any) => {
+        selectedFiles = event.detail.files;
+      });
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(form as HTMLFormElement);
+
+        try {
+          cortain.classList.remove("hidden");
+          cortain.classList.add("flex");
+          submitButton.disabled = true;
+
+          const isEdit = formData.get("slug") !== "new";
+          const url = isEdit
+            ? `/api/products/${formData.get("slug")}`
+            : "/api/products";
+
+          const method = isEdit ? "PATCH" : "POST";
+
+          const response = await fetch(url, {
+            method,
+            body: formData,
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            window.dispatchEvent(
+              new CustomEvent("toast", {
+                detail: {
+                  type: "success",
+                  message: "Producto guardado exitosamente!",
+                },
+              })
+            );
+
+            window.location.href = `/admin/products/${data.slug}`; //Redirect to new Product Page to Update like Shopify
+            selectedFiles = [];
+            cortain.classList.add("hidden");
+            submitButton.disabled = false;
+          } else {
+            console.error("Error adding product:", response.statusText);
+            window.dispatchEvent(
+              new CustomEvent("toast", {
+                detail: {
+                  type: "error",
+                  message: "Error al agregar el producto. Inténtalo de nuevo.",
+                },
+              })
+            );
+            cortain.classList.add("hidden");
+            submitButton.disabled = false;
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          window.dispatchEvent(
+            new CustomEvent("toast", {
+              detail: {
+                type: "error",
+                message: "Error al agregar el producto. Inténtalo de nuevo.",
+              },
+            })
+          );
+          cortain.classList.add("hidden");
+        }
+      });
+    });
+  </script>
+</AdminLayout>

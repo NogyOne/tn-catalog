@@ -1,0 +1,92 @@
+---
+import { MAIN_MENU } from "@consts/menus";
+import Menu from "@components/icons/astro/menu.astro";
+---
+
+<!-- Desktop Navbar -->
+<nav
+  class="w-full px-10 py-4 fixed z-50 bg-white shadow-md top-0 uppercase text-sm text-theme-blue"
+>
+  <div
+    class="container flex items-center lg:items-center justify-between mx-auto"
+  >
+    <a class="text-black font-bold text-2xl" href="/">
+      <img
+        src="/logo.webp"
+        alt="logo"
+        class="w-36 duration-100 transform hover:scale-110"
+      />
+    </a>
+
+    <ul class="hidden md:flex gap-8 text-black cursor-pointer ml-auto">
+      {
+        MAIN_MENU.map((item) => (
+          <li class="hover:text-theme-gold transition-all duration-200 active:text-theme-blue">
+            <a href={item.href} class="underline-animation">
+              <span>{item.name}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</nav>
+
+<!-- Mobile Navbar -->
+<button
+  id="ham-menu"
+  class="text-black font-bold text-2xl ham-button cursor-pointer z-50 right-0 fixed p-10 md:hidden"
+>
+  <Menu />
+</button>
+
+<nav
+  id="off-screen-menu"
+  class="fixed flex-col w-52 bg-white h-min-screen h-full pt-32 pb-20 shadow-2xl z-40"
+>
+  <ul class="flex-col text-black cursor-pointer h-full">
+    {
+      MAIN_MENU.map((item) => (
+        <li class="hover:text-theme-gold transition-all duration-200 active:text-theme-blue hover:bg-theme-blue z-40">
+          <a
+            href={item.href}
+            class="underline-animation py-4 pr-4 pl-10 w-full"
+          >
+            <span>{item.name}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+<script>
+  const hamMenu = document.querySelector("#ham-menu") as Element;
+
+  const offScreenMenu = document.querySelector("#off-screen-menu") as Element;
+
+  hamMenu.addEventListener("click", () => {
+    hamMenu.classList.toggle("active");
+    offScreenMenu.classList.toggle("active");
+  });
+</script>
+
+<style>
+  #off-screen-menu {
+    right: -450px;
+    transition: 0.1s ease;
+  }
+
+  #off-screen-menu.active {
+    right: 0;
+  }
+
+  #ham-menu.active {
+    transition: 0.3s ease;
+    transform: translateX(1rem);
+  }
+
+  #ham-menu {
+    transition: 0.3s ease;
+    transform: translateX(0);
+  }
+</style>

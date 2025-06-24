@@ -1,0 +1,59 @@
+---
+import { MAIN_MENU } from "@consts/menus";
+import { SOCIAL_MENU } from "@consts/menus";
+---
+
+<footer class="bg-theme-gold-light py-12">
+  <div class="container mx-auto px-4">
+    <div class="grid gap-8 grid-cols-1 md:grid-cols-3">
+      <img src="/logo.webp" alt="" class="w-40 mx-auto" />
+
+      <div>
+        <h3
+          class="font-serif text-sm font-medium uppercase tracking-wider text-[#263959]"
+        >
+          Navegación
+        </h3>
+        <ul class="mt-2 w-8">
+          {
+            MAIN_MENU.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  class="block py-2 text-sm text-theme-blue/70 hover:text-theme-blue underline-animation"
+                >
+                  {item.name}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div>
+        <h3
+          class="font-serif text-sm font-medium uppercase tracking-wider text-[#263959]"
+        >
+          Contacto
+        </h3>
+        <ul class="mt-2 h-px w-8">
+          {
+            SOCIAL_MENU.map((item) => (
+              <li class="text-theme-blue/70 hover:text-theme-blue">
+                <a href={item.href} class="py-2 text-sm underline-animation">
+                  {item.name}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+    <div class="mt-32 border-t border-[#dbc9a5]/30 pt-8 text-center">
+      <div class="inline-block border-1 border-theme-gold px-6 py-2">
+        <p class="text-xs text-theme-blue/60 font-serif">
+          © {new Date().getFullYear()} Tiempo Noble. Todos los derechos reservados.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>

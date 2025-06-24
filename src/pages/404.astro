@@ -1,0 +1,39 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout
+  title="404 - Tiempo Noble Relojes"
+  description="Página no encontrada en Tiempo Noble Relojes. Vuelve al inicio para seguir disfrutando de nuestro catálogo."
+>
+  <section
+    class="flex min-h-screen w-full items-center justify-center bg-cover bg-center text-center"
+  >
+    <div class="w-full max-w-3xl items-center justify-center">
+      <h1 class="">
+        <span
+          class="mb-12 block text-[120px] font-bold tracking-[.025em] text-theme-blue"
+          aria-hidden="true"
+        >
+          404
+        </span>
+        <span
+          class="mb-2 block text-4xl font-bold tracking-wider text-theme-gold"
+          >¡FUERA DE TIEMPO!</span
+        >
+      </h1>
+      <p class="mb-6 text-xl tracking-wide">
+        Vaya, parece que se te pasó la hora...
+      </p>
+      <div class="flex min-h-4 items-center justify-center">
+        <button
+          class="bg-theme-gold text-theme-blue border-2 border-theme-blue shadow-[2px_2px_0px_#2A3858] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all px-10 py-2 mt-4 rounded-2xl cursor-pointer w-auto font-medium mx-auto"
+          type="button"
+          onclick="window.location.href='/'"
+        >
+          Volver
+        </button>
+      </div>
+    </div>
+  </section>
+</Layout>

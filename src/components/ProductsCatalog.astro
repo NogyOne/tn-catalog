@@ -1,0 +1,55 @@
+---
+import ProductCard from "./ProductCard.astro";
+import type { Product } from "../types/product";
+
+const baseURL = import.meta.env.PUBLIC_API_URL ?? "http://localhost:4321";
+const current = 1;
+const take = 10;
+
+const response = await fetch(
+  `${baseURL}/api/products?current=${current}&take=${take}`,
+  {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }
+);
+
+const { data, meta } = await response.json();
+---
+
+<section class="py-40 h-auto">
+  <div class="container mx-auto px-4">
+    <div
+      class="mb-12 flex flex-col justify-between gap-4 md:flex-row md:items-center"
+    >
+      <div class="text-center md:text-left animate-fade-in-right">
+        <h1 class="font-serif text-3xl font-light text-theme-blue italic">
+          Nuestro Catálogo
+        </h1>
+        <div class="mt-2 h-[2px] w-24 bg-theme-gold mx-auto md:mx-0"></div>
+      </div>
+      <!-- <div class="relative max-w-xs mx-auto md:mx-0">
+        <input
+          type="search"
+          placeholder="Buscar relojes..."
+          class="pl-10 border-2 border-theme-gold focus-visible:ring-theme-blue bg-[#f9f7f2]"
+        />
+      </div> -->
+    </div>
+    {
+      data?.length > 0 ? (
+        <div class="grid grid-cols-2 gap-6 sm:grid-cols-2 lg:grid-cols-5 w-full h-full animate-fade-in-up animate-delay-300">
+          {data.map((product: Product) => (
+            <ProductCard product={product} />
+          ))}
+        </div>
+      ) : (
+        <p class="text-center text-lg font-light h-full">
+          No hay productos disponibles.
+        </p>
+      )
+    }
+  </div>
+</section>
