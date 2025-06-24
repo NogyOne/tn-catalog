@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@astrojs/react": "^4.2.7",
+    "@astrojs/vercel": "^8.2.0",
     "@midudev/tailwind-animations": "^0.2.0",
     "@prisma/client": "^6.6.0",
     "@supabase/ssr": "^0.6.1",
