@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 const { product } = Astro.props;
 ---
 
@@ -9,7 +10,16 @@ const { product } = Astro.props;
     <span class="sr-only">Ver detalles de {product.name}</span>
   </a>
   <div class="aspect-square overflow-hidden bg-[#f9f7f2]">
-    <img
+    <Image
+      src={product.images.length > 0 ? product.images[0].url : ""}
+      alt={`imagen de ${product.name}`}
+      loading="lazy"
+      width={300}
+      height={300}
+      transition:name={`watch-${product.slug}`}
+      class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105 vintage-image"
+    />
+    <!-- <img
       src={product.images.length > 0 ? product.images[0].url : ""}
       alt=`imagen de ${product.name}`
       loading="lazy"
@@ -18,7 +28,7 @@ const { product } = Astro.props;
       }
       transition:name={`watch-${product.slug}`}
       class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105 vintage-image"
-    />
+    /> -->
   </div>
   <div class="p-4">
     <p class="text-xs uppercase tracking-wider text-[#263959]/60 font-serif">

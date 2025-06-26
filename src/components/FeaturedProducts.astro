@@ -14,14 +14,14 @@ const response = await fetch(`${baseURL}/api/products/latest`, {
 const { data, meta } = await response.json();
 ---
 
-<section class="pt-20 pb-20 bg-theme-gold-light">
+<section
+  class="pt-20 pb-20 bg-theme-gold-light animate-fade-in-right animate-delay-300"
+>
   <div class="container mx-auto px-4">
     <div
       class="mb-12 flex flex-col justify-between gap-4 md:flex-row md:items-center"
     >
-      <div
-        class="text-center md:text-left animate-fade-in-right animate-delay-300"
-      >
+      <div class="text-center md:text-left">
         <h2 class="font-serif text-3xl font-light text-theme-blue italic">
           Nuestro Catálogo
         </h2>
@@ -30,9 +30,7 @@ const { data, meta } = await response.json();
     </div>
 
     <div class="flex flex-col items-center">
-      <div
-        class="grid grid-cols-2 gap-6 sm:grid-cols-2 lg:grid-cols-5 w-full animate-fade-in-up animate-delay-500"
-      >
+      <div class="grid grid-cols-2 gap-6 sm:grid-cols-2 lg:grid-cols-5 w-full">
         {
           data?.length > 0 ? (
             data.map((product: Product) => <ProductCard product={product} />)
@@ -44,7 +42,7 @@ const { data, meta } = await response.json();
         }
       </div>
       <button
-        class="bg-theme-gold text-theme-blue border-2 border-theme-blue shadow-[2px_2px_0px_#2A3858] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all px-4 py-2 rounded-2xl cursor-pointer w-auto font-medium mt-10 mx-auto"
+        class="bg-theme-gold text-theme-blue border-2 border-theme-blue shadow-[2px_2px_0px_#2A3858] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all px-4 py-2 rounded-2xl cursor-pointer w-auto font-medium mt-15 mx-auto"
         type="button"
         onclick="window.location.href='/catalog'"
       >

@@ -22,19 +22,14 @@ const product: Product = await response.json();
 >
   <section class="pt-36 bg-theme-gold-light h-auto">
     <div class="container mx-auto mb-20">
-      <!-- <a
-        href="/catalog"
-        class="text-gray-500 cursor-pointer hover:text-theme-gold transition duration-200 flex items-center"
-        ><ArrowLeft />Volver al catálogo</a
-      > -->
       <div class="grid grid-cols-1 md:gap-12 md:grid-cols-2 mt-8">
         <article
           class="flex flex-col items-center md:items-start animate-fade-in-right"
         >
-          <div class="aspect-square w-full mb-4">
+          <div class="aspect-square max-w-[600px] w-full mb-4 mx-auto">
             <img
               id="main-image"
-              class="w-full h-full object-contain"
+              class="w-full h-full object-cover object-center"
               src={product.images[0].url}
               alt={`imagen-de-${product.name}`}
               transition:name={`watch-${product.slug}`}
@@ -43,7 +38,7 @@ const product: Product = await response.json();
           <div class="">
             {
               product.images.length > 1 && (
-                <div class="flex gap-4 mt-4 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-theme-gold">
+                <div class="flex gap-4 mt-4 overflow-x-auto pb-4 px-4 md:px-0">
                   {product.images.map((image) => (
                     <img
                       class="h-20 w-20 object-cover rounded-lg cursor-pointer thumbnail"

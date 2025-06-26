@@ -18,6 +18,14 @@ const { title = metaData.title, description = metaData.title } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="description" content={description} />
+
+    <!-- Open Graph Tags -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/card-thumbail.webp" />
+    <meta property="og:image:alt" content="social-media-card-thumbnail" />
+
     <!-- <ClientRouter /> -->
   </head>
   <body>
