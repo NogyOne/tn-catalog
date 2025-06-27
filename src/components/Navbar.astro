@@ -1,6 +1,6 @@
 ---
 import { MAIN_MENU } from "@consts/menus";
-import Menu from "@components/icons/astro/menu.astro";
+import Menu from "@components/icons/astro/Menu.astro";
 ---
 
 <!-- Desktop Navbar -->
@@ -8,9 +8,9 @@ import Menu from "@components/icons/astro/menu.astro";
   class="w-full fixed z-50 bg-white shadow-md top-0 uppercase text-sm text-theme-blue"
 >
   <div
-    class="container px-4 py-6 flex items-center lg:items-center justify-between mx-auto"
+    class="container px-10 py-6 flex items-center lg:items-center justify-between mx-auto"
   >
-    <a class="text-black font-bold text-2xl" href="#main-section">
+    <a class="text-black font-bold text-2xl" href="/">
       <img
         src="/logo.webp"
         alt="logo"
@@ -65,28 +65,35 @@ import Menu from "@components/icons/astro/menu.astro";
   const offScreenMenu = document.querySelector("#off-screen-menu") as Element;
 
   hamMenu.addEventListener("click", () => {
-    hamMenu.classList.toggle("active");
-    offScreenMenu.classList.toggle("active");
+    requestAnimationFrame(() => {
+      hamMenu.classList.toggle("active");
+      offScreenMenu.classList.toggle("active");
+    });
   });
 </script>
 
 <style>
   #off-screen-menu {
-    right: -450px;
-    transition: 0.1s ease;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    will-change: transform;
+    transform: translateX(100%);
+    transition: transform 0.1s ease-in-out;
   }
 
   #off-screen-menu.active {
-    right: 0;
+    transform: translateX(0%);
   }
 
-  #ham-menu.active {
-    transition: 0.3s ease;
+  /* #ham-menu.active {
+    transition: 0.1s ease;
     transform: translateX(1rem);
   }
 
   #ham-menu {
-    transition: 0.3s ease;
+    transition: 0.1s ease;
     transform: translateX(0);
-  }
+  } */
 </style>
