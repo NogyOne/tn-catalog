@@ -6,7 +6,8 @@ import Footer from "@components/Footer.astro";
 import { metaData } from "@consts/metaData";
 import ToastListener from "@components/ToastListener";
 
-const { title = metaData.title, description = metaData.title } = Astro.props;
+const { title = metaData.title, description = metaData.description } =
+  Astro.props;
 ---
 
 <!doctype html>
@@ -23,7 +24,10 @@ const { title = metaData.title, description = metaData.title } = Astro.props;
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="/card-thumbail.webp" />
+    <meta
+      property="og:image"
+      content="https://tn-catalog.vercel.app/card-thumbnail.webp"
+    />
     <meta property="og:image:alt" content="social-media-card-thumbnail" />
 
     <!-- <ClientRouter /> -->
