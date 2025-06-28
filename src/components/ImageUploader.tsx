@@ -87,6 +87,7 @@ export default function ImageUploader({ currentImgs = [] }: ImageProps) {
             previews.map((src, i) => (
               <div className="relative" key={i}>
                 <button
+                  type="button"
                   className="px-2 py-1 bg-gray-50 hover:bg-gray-400 cursor-pointer rounded-2xl text-xs mt-1 ml-1 absolute"
                   onClick={() => handleRemoveImage(i)}
                 >
