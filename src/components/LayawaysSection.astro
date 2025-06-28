@@ -1,15 +1,23 @@
 ---
-
+import { Image } from "astro:assets";
 ---
 
 <section
   class="relative overflow-hidden bg-theme-blue text-white animate-fade-in-up pt-30 pb-10 md:py-30 inset-shadow-xl border-t-theme-gold border-t-6"
 >
   <div class="absolute left-0 top-0 h-full md:w-1/2 opacity-70">
-    <img
+    <!-- <img
       src="/orient-bambino.webp"
       alt="Reloj vintage"
       class="object-cover md:h-full w-full object-center md:object-right md:mask-r-to-100% md:mask-r-from-50% md:mask-b-from-90% mask-b-from-30%"
+    /> -->
+    <Image
+      src="/orient-bambino.webp"
+      alt="reloj-orient-bambino"
+      class="object-cover md:h-full w-full object-center lg:object-right md:mask-r-to-100% md:mask-r-from-50% md:mask-b-from-90% mask-b-from-30%"
+      loading="lazy"
+      width={800}
+      height={600}
     />
   </div>
   <div

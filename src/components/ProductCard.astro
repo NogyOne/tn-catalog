@@ -13,7 +13,7 @@ const { product } = Astro.props;
     <Image
       src={product.images.length > 0 ? product.images[0].url : ""}
       alt={`imagen de ${product.name}`}
-      loading="lazy"
+      loading="eager"
       width={300}
       height={300}
       transition:name={`watch-${product.slug}`}
