@@ -11,12 +11,7 @@ import { Image } from "astro:assets";
   <div
     class="container px-10 py-6 flex items-center lg:items-center justify-between mx-auto"
   >
-    <a class="text-black font-bold text-2xl" href="/">
-      <!-- <img
-        src="/logo.webp"
-        alt="logo"
-        class="w-30 md:w-34 duration-100 transform hover:scale-110"
-      /> -->
+    <a class="text-black font-bold text-2xl" href="/" aria-label="Home">
       <Image
         src="/logo.webp"
         alt="logo"
@@ -29,7 +24,7 @@ import { Image } from "astro:assets";
     <ul class="hidden md:flex gap-8 text-black cursor-pointer ml-auto">
       {
         MAIN_MENU.map((item) => (
-          <li class="hover:text-theme-gold transition-all duration-200 active:text-theme-blue">
+          <li class="hover:text-theme-blue transition-all duration-200 active:text-theme-blue">
             <a href={item.href} class="underline-animation">
               <span>{item.name}</span>
             </a>
@@ -44,7 +39,8 @@ import { Image } from "astro:assets";
 <button
   type="button"
   id="ham-menu"
-  class="text-black font-bold text-2xl ham-button cursor-pointer z-50 right-0 fixed p-10 md:hidden"
+  aria-label="Toggle Menu"
+  class="text-black font-bold text-2xl ham-button cursor-pointer z-50 right-0 fixed m-10 md:hidden"
 >
   <Menu />
 </button>
