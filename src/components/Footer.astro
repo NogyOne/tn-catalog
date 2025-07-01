@@ -1,13 +1,19 @@
 ---
 import { MAIN_MENU } from "@consts/menus";
 import { SOCIAL_MENU } from "@consts/menus";
+import { Image } from "astro:assets";
 ---
 
 <footer class="bg-theme-gold-light py-12">
   <div class="container mx-auto px-4">
     <div class="grid gap-8 grid-cols-1 md:grid-cols-3">
-      <img src="/logo.webp" alt="" class="w-40 mx-auto" />
-
+      <Image
+        src="/logo.webp"
+        alt=""
+        class="w-40 mx-auto"
+        width={160}
+        height={64}
+      />
       <div>
         <h3
           class="font-serif text-sm font-medium uppercase tracking-wider text-[#263959]"

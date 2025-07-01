@@ -3,6 +3,7 @@ import Layout from "@layouts/Layout.astro";
 import type { Product } from "../../types/product";
 import ArrowLeft from "@/components/icons/astro/Arrow-left.astro";
 import LayawaysSection from "@/components/LayawaysSection.astro";
+import { Image } from "astro:assets";
 
 const { slug } = Astro.params;
 const baseURL = import.meta.env.PUBLIC_API_URL ?? "http://localhost:4321";
@@ -22,29 +23,35 @@ const product: Product = await response.json();
 >
   <section class="pt-36 bg-theme-gold-light h-auto">
     <div class="container mx-auto mb-20">
-      <div class="grid grid-cols-1 md:gap-12 md:grid-cols-2 mt-8">
+      <div class="grid grid-cols-1 md:gap-30 lg:gap-12 md:grid-cols-2 mt-8">
         <article
-          class="flex flex-col items-center md:items-start animate-fade-in-right"
+          class="flex flex-col items-start animate-fade-in-right md:mx-auto"
         >
-          <div class="aspect-square max-w-[600px] w-full mb-4 mx-auto">
-            <img
+          <div
+            class="aspect-square max-w-[600px] min-h-[400px] w-full mb-4 mx-auto"
+          >
+            <Image
               id="main-image"
               class="w-full h-full object-cover object-center"
               src={product.images[0].url}
               alt={`imagen-de-${product.name}`}
               transition:name={`watch-${product.slug}`}
+              width={600}
+              height={600}
             />
           </div>
-          <div class="">
+          <div class="pb-4">
             {
               product.images.length > 1 && (
-                <div class="flex gap-4 mt-4 overflow-x-auto pb-4 px-4 md:px-0">
-                  {product.images.map((image) => (
-                    <img
-                      class="h-20 w-20 object-cover rounded-lg cursor-pointer thumbnail"
+                <div class="flex gap-4 mt-4 overflow-x-auto px-4 md:px-0">
+                  {product.images.map((image, index) => (
+                    <Image
+                      class={`h-20 w-20 object-cover rounded-lg cursor-pointer thumbnail hover:border-b-6 hover:border-theme-gold transition-all ${index === 0 ? "border-b-6 border-theme-blue" : ""}`}
                       src={image.url}
                       alt={`imagen-de-${product.name}`}
                       data-image-url={image.url}
+                      width={80}
+                      height={80}
                     />
                   ))}
                 </div>
@@ -53,7 +60,7 @@ const product: Product = await response.json();
           </div>
         </article>
         <article
-          class="w-full md:w-3/4 mt-10 md:mt-0 px-5 md:px-0 animate-fade-in-left"
+          class="w-full lg:w-3/4 mt-10 md:mt-0 px-5 md:px-0 animate-fade-in-left"
         >
           <h1 class="text-2xl md:text-3xl font-light text-theme-blue">
             {product.name}
@@ -152,6 +159,8 @@ const product: Product = await response.json();
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
+    const selectedThumbnailStyles = ["border-b-6", "border-theme-blue"];
+
     const mainImage = document.getElementById("main-image") as HTMLImageElement;
     if (!mainImage) return;
 
@@ -162,6 +171,11 @@ const product: Product = await response.json();
         const imageUrl = thumbnail.getAttribute("data-image-url");
         if (imageUrl && mainImage) {
           mainImage.src = imageUrl;
+
+          thumbnails.forEach((thumb) => {
+            thumb.classList.remove(...selectedThumbnailStyles);
+          });
+          thumbnail.classList.add(...selectedThumbnailStyles);
         }
       });
     });
