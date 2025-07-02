@@ -25,11 +25,11 @@ const { product } = Astro.props;
     <p class="text-xs uppercase tracking-wider text-[#263959]/60 font-serif">
       {product.model}
     </p>
-    <h3
+    <p
       class="mt-1 font-serif text-sm md:text-lg font-medium text-[#263959] italic"
     >
       {product.name}
-    </h3>
+    </p>
     <div class="mt-2 flex items-center justify-between">
       <div
         class={`text-[#263959] font-serif flex gap-3 ${product.price === 0 ? "text-sm font-light" : ""}`}
