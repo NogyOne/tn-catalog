@@ -104,20 +104,3 @@ export function requireAuth<T>(
     return handler(context, user);
   };
 }
-
-/**
- * Middleware opcional para endpoints que pueden funcionar con o sin autenticación
- * @param handler - Función del endpoint que recibe el usuario (puede ser null)
- * @returns Función del endpoint de Astro
- */
-export function optionalAuth<T>(
-  handler: (
-    context: APIContext,
-    user: AuthUser | null
-  ) => Promise<Response> | Response
-) {
-  return async (context: APIContext): Promise<Response> => {
-    const { user } = await authMiddleware(context);
-    return handler(context, user);
-  };
-}
