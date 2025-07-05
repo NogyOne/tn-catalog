@@ -12,11 +12,11 @@ import { EmailTypes } from "@/consts/emailTypes";
       description={[
         "En Tiempo Noble siempre estamos aquí para ayudarte. Si tienes preguntas, comentarios o necesitas asistencia, no dudes en contactarnos. Nuestro equipo está listo para brindarte el mejor servicio posible.",
       ]}
-      className="mt-28"
+      className="mt-24"
     />
 
     <div
-      class="grid grid-cols-1 lg:grid-cols-2 gap-8 mx-auto w-full py-20 items-start container px-5 md:px-0"
+      class="grid grid-cols-1 lg:grid-cols-2 gap-8 mx-auto w-full py-20 items-start container px-4 md:px-0"
     >
       <div class="animate-fade-in-right animate-delay-200">
         <div>
@@ -31,14 +31,14 @@ import { EmailTypes } from "@/consts/emailTypes";
         </div>
         <div class="mx-auto">
           <h3
-            class="lg:px-3 text-base w-full sm:text-md md:text-lg mb-4 uppercase text-theme-gold underline decoration-theme-blue underline-offset-4 font-semibold"
+            class="lg:px-3 text-base w-full sm:text-md md:text-lg mb-4 uppercase text-theme-gold underline decoration-theme-blue underline-offset-4 font-semibold px-4"
           >
             Siguenos en nuestras redes sociales
           </h3>
           <ul class="flex-col gap-4 flex items-start">
             {
               SOCIAL_MENU.map((item) => (
-                <li class="text-theme-blue/70 hover:text-theme-blue  cursor-pointer ">
+                <li class="text-theme-blue/70 hover:text-theme-blue  cursor-pointer px-4 md:px-3">
                   <div class="flex items-center gap-2">
                     <span class="size-6 flex items-center justify-center ">
                       <item.icon />
