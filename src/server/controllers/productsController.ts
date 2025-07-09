@@ -82,6 +82,21 @@ export class ProductsController {
     }
   };
 
+  handleDeleteProductImage = async (imageId: string, imagePath: string) => {
+    if (!imageId || !imagePath) {
+      throw new Error("[PRODUCT CONTROLLER ERROR]: ID and Path are needed");
+    }
+    try {
+      const imageDeleted = await productService.deleteProductImage(
+        imageId,
+        imagePath
+      );
+      return imageDeleted;
+    } catch (error) {
+      throw new Error(`[PRODUCT CONTROLLER ERROR]: ${error}`);
+    }
+  };
+
   handleUpdateProduct = async (req: Request, slug: string) => {
     const formData = await req.formData();
     const imageFiles: Buffer[] = [];

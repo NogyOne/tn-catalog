@@ -46,6 +46,9 @@
       "@lib/*": [
         "src/lib/*"
       ],
+      "@server/*": [
+        "src/server/*"
+      ]
     },
     "jsx": "react-jsx",
     "jsxImportSource": "react"

@@ -150,6 +150,7 @@ export class ProductService {
             alt: `${data.name}-image-${i + 1}`,
             productId: product.id,
             order: i + 1,
+            path: uploadedImagePaths[i],
           }));
 
           await tx.image.createMany({
@@ -191,7 +192,7 @@ export class ProductService {
     );
 
     const uniqueFilenames = fileNames.map((fileName) =>
-      `${Date.now()}-${fileName}`.toLowerCase()
+      `${fileName}-${Date.now()}`.toLowerCase()
     );
 
     const uploads: string[] = [];
@@ -217,6 +218,34 @@ export class ProductService {
     }
 
     return { imageUrls: uploads, imagePaths: paths };
+  };
+
+  deleteProductImage = async (imageId: string, imagePath: string) => {
+    try {
+      await prisma.$transaction(async (tx) => {
+        // Delete the image from the database
+        await tx.image.delete({
+          where: { id: imageId },
+        });
+
+        // Remove the image from Supabase storage
+        const { error } = await supabase.storage
+          .from("products-image-bucket")
+          .remove([imagePath]);
+
+        if (error) {
+          throw new Error(
+            `Failed to delete image from storage: ${error.message}`
+          );
+        }
+
+        return true;
+      });
+    } catch (error) {
+      throw new Error(
+        `[PRODUCT SERVICE FAILED]: DELETING IMAGE ${imageId} -ERROR: ${error}`
+      );
+    }
   };
 
   deleteProduct = async (productId: string) => {

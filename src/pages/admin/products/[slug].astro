@@ -27,6 +27,16 @@ if (slug != "new") {
   });
   product = await response.json();
 }
+
+// Preparar los datos de las imágenes para el componente React
+const currentImgsData =
+  product?.images?.map((img) => ({
+    id: img.id,
+    url: img.url,
+    path: img.path || img.url, // Asumiendo que tienes el path, sino usa la URL
+  })) || [];
+
+const currentImgs = product?.images?.map((img) => img.url) || [];
 ---
 
 <AdminLayout>
@@ -45,7 +55,9 @@ if (slug != "new") {
       class="text-gray-500 cursor-pointer hover:text-theme-gold transition duration-200 flex items-center"
       ><ArrowLeft />Volver a productos</a
     >
-    <h1 class="text-3xl font-light mb-4 mt-6">Agregar Producto</h1>
+    <h1 class="text-3xl font-light mb-4 mt-6">
+      {isEdit ? "Editar Producto" : "Agregar Producto"}
+    </h1>
     <form
       id="add-product-form"
       enctype="multipart/form-data"
@@ -158,7 +170,10 @@ if (slug != "new") {
 
           <ImageUploader
             client:only="react"
-            currentImgs={product?.images?.map((img) => img.url) ?? []}
+            currentImgs={currentImgs}
+            currentImgsData={currentImgsData}
+            isEdit={isEdit}
+            productSlug={slug}
           />
         </article>
         <article>
@@ -227,15 +242,22 @@ if (slug != "new") {
       if (!form) return;
 
       let selectedFiles: File[] = [];
+      let deletedImageIds: string[] = [];
 
       window.addEventListener("imagesSelected", (event: any) => {
         selectedFiles = event.detail.files;
+        deletedImageIds = event.detail.deletedImageIds || [];
       });
 
       form.addEventListener("submit", async (event) => {
         event.preventDefault();
 
         const formData = new FormData(form as HTMLFormElement);
+
+        // Agregar los IDs de las imágenes eliminadas al FormData si los hay
+        if (deletedImageIds.length > 0) {
+          formData.append("deletedImageIds", JSON.stringify(deletedImageIds));
+        }
 
         try {
           cortain.classList.remove("hidden");
@@ -265,8 +287,9 @@ if (slug != "new") {
               })
             );
 
-            window.location.href = `/admin/products/${data.slug}`; //Redirect to new Product Page to Update like Shopify
+            window.location.href = `/admin/products/${data.slug}`;
             selectedFiles = [];
+            deletedImageIds = [];
             cortain.classList.add("hidden");
             submitButton.disabled = false;
           } else {

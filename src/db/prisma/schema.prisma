@@ -27,7 +27,7 @@ model Product {
   caseMaterial     String
   braceletMaterial String?
   strapMaterial    String?
-  caseSize         Float?
+  caseSize         Float
   cristal          String?
   movement         String?
   waterResistance  String?
@@ -45,6 +45,7 @@ model Image {
   product   Product @relation(fields: [productId], references: [id])
   productId String  @db.Uuid
   order     Int
+  path      String
 }
 
 model Log {
