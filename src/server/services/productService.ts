@@ -1,4 +1,4 @@
-import { prisma } from "../../db/dbConnection";
+import { prisma, closePrisma } from "../../db/dbConnection";
 import type { Product, CreateProductDTO } from "../../types/product";
 import Sharp from "sharp";
 import { supabase } from "../../db/supabaseClient";
@@ -54,6 +54,8 @@ export class ProductService {
     } catch (error) {
       console.error("Error fetching products:", error);
       throw new Error("Failed to fetch products");
+    } finally {
+      await closePrisma();
     }
   };
 
@@ -84,6 +86,8 @@ export class ProductService {
       };
     } catch (error) {
       throw new Error(`[ERROR SERVICE]: Failed to fetch products - ${error}`);
+    } finally {
+      await closePrisma();
     }
   };
 
@@ -106,6 +110,8 @@ export class ProductService {
     } catch (error) {
       console.error("Error fetching product:", error);
       throw new Error("Failed to fetch product");
+    } finally {
+      await closePrisma();
     }
   };
 
@@ -178,6 +184,8 @@ export class ProductService {
       }
 
       throw new Error("Failed to create product: " + error);
+    } finally {
+      await closePrisma();
     }
   };
 
@@ -245,6 +253,8 @@ export class ProductService {
       throw new Error(
         `[PRODUCT SERVICE FAILED]: DELETING IMAGE ${imageId} -ERROR: ${error}`
       );
+    } finally {
+      await closePrisma();
     }
   };
 
@@ -262,6 +272,8 @@ export class ProductService {
       throw new Error(
         `[PRODUCT SERVICE FAILED]: DELETING PRODUCT ${productId} -ERROR: ${error}`
       );
+    } finally {
+      await closePrisma();
     }
   };
 
@@ -286,6 +298,8 @@ export class ProductService {
       throw new Error(
         `[PRODUCT SERVICE FAILED]: UPDATING PRODUCT ${slug} -ERROR: ${error}`
       );
+    } finally {
+      await closePrisma();
     }
   };
 }
