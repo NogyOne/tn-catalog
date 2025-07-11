@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { ProductsController } from "../../../server/controllers/productsController";
+import { ProductsController } from "@server/controllers/productsController";
 
 const productsController = new ProductsController();
 
