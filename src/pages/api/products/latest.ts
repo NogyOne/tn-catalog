@@ -13,6 +13,16 @@ export const GET: APIRoute = async () => {
       },
     });
   } catch (error) {
-    throw error;
+    return new Response(
+      JSON.stringify({
+        error: "Failed to fetch featured products",
+      }),
+      {
+        status: 500,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
   }
 };

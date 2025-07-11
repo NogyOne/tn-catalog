@@ -11,10 +11,16 @@ const createPrismaClient = () => {
   return new PrismaClient({
     log: process.env.NODE_ENV === "development" ? ["query"] : [],
 
+    datasources: {
+      db: {
+        url: process.env.DATABASE_URL,
+      },
+    },
+
     //Config to avoid issues with prepared statements in production
     transactionOptions: {
-      maxWait: 3000,
-      timeout: 8000,
+      maxWait: 5000,
+      timeout: 10000,
     },
   });
 };
