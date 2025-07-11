@@ -6,17 +6,32 @@ const baseURL = import.meta.env.PUBLIC_API_URL ?? "http://localhost:4321";
 const current = 1;
 const take = 10;
 
-const response = await fetch(
-  `${baseURL}/api/products?current=${current}&take=${take}`,
-  {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  }
-);
+let data = [];
+let meta = {};
 
-const { data, meta } = await response.json();
+try {
+  const response = await fetch(
+    `${baseURL}/api/products?current=${current}&take=${take}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  const result = await response.json();
+  data = result.data || [];
+  meta = result.meta || {};
+} catch (error) {
+  console.error("Error loading featured products:", error);
+  data = [];
+  meta = {};
+}
 ---
 
 <section class="py-36 md:py-40 h-auto">
