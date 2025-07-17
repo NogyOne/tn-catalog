@@ -4,7 +4,7 @@ import ProductCard from "@components/ProductCard";
 import Loader from "@components/Loader";
 
 export default function ProductsCatalog() {
-  const baseURL = import.meta.env.PUBLIC_API_URL && "http://localhost:4321";
+  const baseURL = import.meta.env.PUBLIC_API_URL;
   const current = 1;
   const take = 10;
   const [data, setData] = useState<Product[]>([]);
