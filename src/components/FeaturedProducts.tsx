@@ -5,7 +5,7 @@ import Loader from "@components/Loader.tsx";
 import ActionButton from "@components/ActionButton.tsx";
 
 export default function FeaturedProducts() {
-  const baseURL = import.meta.env.BASE_URL && "http://localhost:4321";
+  const baseURL = import.meta.env.PUBLIC_API_URL && "http://localhost:4321";
   const [data, setData] = useState<Product[]>([]);
   const [meta, setMeta] = useState({});
   const [error, setError] = useState<string | null>(null);
