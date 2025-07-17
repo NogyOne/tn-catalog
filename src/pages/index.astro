@@ -1,14 +1,14 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import MainSection from "@components/MainSection.astro";
-import FeaturedProducts from "@components/FeaturedProducts.astro";
+import FeaturedProducts from "@components/FeaturedProducts.tsx";
 import InfoLabel from "@components/InfoLabel.astro";
 import LayawaysSection from "@components/LayawaysSection.astro";
 ---
 
 <Layout>
   <MainSection />
-  <FeaturedProducts />
+  <FeaturedProducts client:only="react" />
   <InfoLabel
     title="¿Quiénes Somos?"
     description={[

@@ -144,7 +144,7 @@ export default function ProductsTable() {
                 </tr>
               ))
             ) : (
-              <Loader />
+              <Loader nestedStyles="fixed bg-white/50 z-50" />
             )}
           </tbody>
         </table>

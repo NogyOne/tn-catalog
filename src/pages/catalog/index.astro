@@ -1,5 +1,6 @@
 ---
-import ProductsCatalog from "../../components/ProductsCatalog.astro";
+// import ProductsCatalog from "../../components/ProductsCatalog.astro";
+import ProductsCatalog from "@components/ProductsCatalog.tsx";
 import Layout from "../../layouts/Layout.astro";
 ---
 
@@ -7,5 +8,5 @@ import Layout from "../../layouts/Layout.astro";
   title="Catálogo | Tiempo Noble"
   description="Explora nuestro catálogo de productos disponibles donde te mostramos una variedad de relojes increibles de alta calidad. Algunos completamentes nuevos y otros de segunda mano con una estética excelente."
 >
-  <ProductsCatalog />
+  <ProductsCatalog client:only="react" />
 </Layout>
