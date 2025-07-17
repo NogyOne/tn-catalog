@@ -8,13 +8,27 @@ import { Image } from "astro:assets";
 const { slug } = Astro.params;
 const baseURL = import.meta.env.PUBLIC_API_URL ?? "http://localhost:4321";
 
-const response = await fetch(`${baseURL}/api/products/${slug}`, {
-  method: "GET",
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
-const product: Product = await response.json();
+let product: Product;
+
+try {
+  const response = await fetch(`${baseURL}/api/products/${slug}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  if (!response.ok) {
+    throw new Error(`Error fetching product: ${response.statusText}`);
+  }
+
+  product = await response.json();
+
+  if (!product) {
+    throw new Error("Product not found");
+  }
+} catch (error) {
+  throw new Error("Error fetching product:");
+}
 ---
 
 <Layout
