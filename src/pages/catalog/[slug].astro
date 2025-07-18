@@ -6,7 +6,7 @@ import LayawaysSection from "@/components/LayawaysSection.astro";
 import { Image } from "astro:assets";
 
 const { slug } = Astro.params;
-const baseURL = import.meta.env.PUBLIC_API_URL ?? "http://localhost:4321";
+const baseURL = import.meta.env.PUBLIC_API_URL;
 
 let product: Product;
 
