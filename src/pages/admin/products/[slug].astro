@@ -18,7 +18,7 @@ let isEdit = false;
 
 if (slug != "new") {
   isEdit = true;
-  const baseURL = import.meta.env.PUBLIC_API_URL ?? "http://localhost:4321";
+  const baseURL = import.meta.env.PUBLIC_API_URL;
   const response = await fetch(`${baseURL}/api/products/${slug}`, {
     method: "GET",
     headers: {
