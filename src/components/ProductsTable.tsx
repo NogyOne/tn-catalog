@@ -18,7 +18,7 @@ export default function ProductsTable() {
   const [current, setCurrent] = useState(1);
   const [loading, setLoading] = useState(true);
 
-  const baseURL = import.meta.env.PUBLIC_API_URL ?? "http://localhost:4321";
+  const baseURL = import.meta.env.PUBLIC_API_URL;
 
   const handleNextPage = () => {
     setCurrent(current + 1);
