@@ -33,6 +33,9 @@ export default function ProductsCatalog() {
         }
 
         const text = await response.text();
+        if (!text.trim()) {
+          throw new Error("El servidor devolvió una respuesta vacía");
+        }
 
         const result = JSON.parse(text);
         setData(result.data ?? []);
