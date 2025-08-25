@@ -1,5 +1,9 @@
 import { prisma, closePrisma } from "../../db/dbConnection";
-import type { Product, CreateProductDTO } from "../../types/product";
+import type {
+  Product,
+  CreateProductDTO,
+  ProductoCardDTO,
+} from "../../types/product";
 import Sharp from "sharp";
 import { supabase } from "../../db/supabaseClient";
 
@@ -19,18 +23,29 @@ export class ProductService {
           where: {
             isDeleted: false,
           },
-          skip: skip,
-          take,
-          include: {
+          select: {
+            name: true,
+            slug: true,
+            notes: true,
+            model: true,
+            normalPrice: true,
+            discountPrice: true,
             images: {
-              orderBy: {
-                order: "asc",
+              select: {
+                url: true,
+                alt: true,
               },
+              where: {
+                order: 1,
+              },
+              take: 1,
             },
           },
           orderBy: {
             createdAt: "desc",
           },
+          take,
+          skip,
         }),
         prisma.product.count({
           where: {
@@ -42,11 +57,8 @@ export class ProductService {
       const totalPages = Math.ceil(total / take);
 
       return {
-        data: products,
+        data: products as ProductoCardDTO[],
         meta: {
-          total,
-          current,
-          totalPages,
           hasNextPage: current < totalPages,
           hasPrevPage: current > 1,
         },
@@ -65,11 +77,22 @@ export class ProductService {
         where: {
           isDeleted: false,
         },
-        include: {
+        select: {
+          name: true,
+          slug: true,
+          notes: true,
+          model: true,
+          normalPrice: true,
+          discountPrice: true,
           images: {
-            orderBy: {
-              order: "asc",
+            select: {
+              url: true,
+              alt: true,
             },
+            where: {
+              order: 1,
+            },
+            take: 1,
           },
         },
         orderBy: {
@@ -79,10 +102,8 @@ export class ProductService {
       });
 
       return {
-        data: products,
-        meta: {
-          total: 5,
-        },
+        data: products as ProductoCardDTO[],
+        meta: {},
       };
     } catch (error) {
       throw new Error(`[ERROR SERVICE]: Failed to fetch products - ${error}`);

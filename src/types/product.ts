@@ -15,6 +15,21 @@ export interface CreateProductDTO {
   stock: number;
 }
 
+export interface ProductoCardDTO {
+  name: string;
+  slug: string;
+  notes: string;
+  model: string;
+  normalPrice: number;
+  discountPrice: number;
+  images: SingleImageDTO[];
+}
+
+export interface SingleImageDTO {
+  url: string;
+  alt: string;
+}
+
 export interface Product {
   id: string;
   slug: string;
