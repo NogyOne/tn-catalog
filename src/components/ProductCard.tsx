@@ -44,12 +44,12 @@ export default function ProductCard({ product }: { product: Product }) {
               <>
                 <p
                   className={`text-base md:text-lg font-serif text-gray-500 italic ${
-                    product.discount > 0 ? "line-through" : ""
+                    product.discountPrice > 0 ? "line-through" : ""
                   }`}
                 >
                   ${product.normalPrice}
                 </p>
-                {product.discount > 0 && (
+                {product.discountPrice > 0 && (
                   <p className="font-serif text-red-500">
                     ${product.discountPrice}
                   </p>
